@@ -173,16 +173,16 @@ body{
 .chat-input textarea:valid ~ span{
     visibility: visible;
 }
-.alert-mark {
+/* .alert-mark {
   position: absolute;
   top: 70%;
   left: 58%;
   transform: translateX(-50%);
   font-size: 40px;
-  color: #ff0000; /* red color */
+  color: #ff0000;
   font-weight: bold;
   z-index: 3;
-}
+} */
 @media (max-width: 768px) {
     .chatbot-toggler {
         right: 10%;
@@ -234,7 +234,7 @@ body{
 </head>
 
 <body>
-<span class="alert-mark">!</span>
+<!-- <span class="alert-mark">!</span> --> 
     <button class="chatbot-toggler">
         <span class="material-symbols-outlined">mode_comment</span>
         <span class="material-symbols-outlined">close</span>
@@ -275,7 +275,7 @@ const chatbotToggler = document.querySelector(".chatbot-toggler");
 const chatbotCloseBtn = document.querySelector(".close-btn");
 
 let userMessage;
-const API_KEY = "AIzaSyBQUJNwAfZa_hYqHd92MdsmSE92G1A78pM";
+const API_KEY = "AIzaSyAfk4QEh_QqZ5sOa0Wjnr5Iipn9W2_Wp1g";
 const inputInitHeight = chatInput.scrollHeight;
 
 const createChatLi = (message, className) => {
@@ -289,7 +289,7 @@ const createChatLi = (message, className) => {
 }
 
 const generateResponse = (incomingChatLi) => {
-    const API_URL =  `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`
+    const API_URL =  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAfk4QEh_QqZ5sOa0Wjnr5Iipn9W2_Wp1g"
     const messageElement = incomingChatLi.querySelector("p");
     
     const requestOptions = {
@@ -346,49 +346,7 @@ chatInput.addEventListener("keydown", (e) => {
     handleChat();
   }
 })
-chatbotToggler.addEventListener("mousedown", (e) => {
-  console.log("MouseDown event triggered");
-  document.body.classList.add("dragging");
-  chatbotToggler.style.cursor = "move";
-  let startX = e.clientX;
-  let startY = e.clientY;
-  let togglerX = chatbotToggler.offsetLeft;
-  let togglerY = chatbotToggler.offsetTop;
 
-  document.addEventListener("mousemove", (e) => {
-    console.log("MouseMove event triggered");
-    if (document.body.classList.contains("dragging")) {
-      let newX = e.clientX;
-      let newY = e.clientY;
-      let deltaX = newX - startX;
-      let deltaY = newY - startY;
-      chatbotToggler.style.top = `${togglerY + deltaY}px`;
-      chatbotToggler.style.left = `${togglerX + deltaX}px`;
-    }
-  });
-
-  document.addEventListener("mouseup", () => {
-    console.log("MouseUp event triggered");
-    document.body.classList.remove("dragging");
-    chatbotToggler.style.cursor = "pointer";
-  });
-});
-
-document.addEventListener("mousemove", (e) => {
-  if (document.body.classList.contains("dragging")) {
-    let newX = e.clientX;
-    let newY = e.clientY;
-    let deltaX = newX - startX;
-    let deltaY = newY - startY;
-    chatbotToggler.style.top = `${togglerY + deltaY}px`;
-    chatbotToggler.style.left = `${togglerX + deltaX}px`;
-
-    // Update the chatbox position
-    const chatbox = document.querySelector(".chatbot");
-    chatbox.style.top = `${togglerY + deltaY + 50}px`; // adjust the top position to account for the toggler's height
-    chatbox.style.left = `${togglerX + deltaX}px`;
-  }
-});
 
 sendChatBtn.addEventListener("click", handleChat);
 chatbotCloseBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
